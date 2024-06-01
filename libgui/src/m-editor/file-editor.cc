@@ -78,7 +78,9 @@ file_editor_tab_widget::file_editor_tab_widget (QWidget *p, file_editor *fe)
 
   setTabsClosable (true);
   setUsesScrollButtons (true);
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   setMovable (true);
+#endif
 }
 
 tab_bar *

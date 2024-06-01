@@ -343,6 +343,9 @@ gui_settings::get_default_font_family ()
   if (default_family.isEmpty ())
     {
       // Get the system's default monospaced font
+#if defined (HAVE_QT4)
+      default_family = global_font_family;
+#else
       QFont fixed_font = QFontDatabase::systemFont (QFontDatabase::FixedFont);
       default_family = fixed_font.defaultFamily ();
 
@@ -353,6 +356,7 @@ gui_settings::get_default_font_family ()
           // Fallback: take first from this list
           default_family = fonts[0];
         }
+#endif
     }
 
   // Test env variable which has preference

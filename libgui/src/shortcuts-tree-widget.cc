@@ -70,7 +70,11 @@ enter_shortcut::keyPressEvent (QKeyEvent *e)
       if (key == Qt::Key_unknown || key == 0)
         return;
 
+#if defined (HAVE_QT4)
+      Qt::KeyboardModifiers modifiers = QApplication::keyboardModifiers (); //e->modifiers ();
+#else
       Qt::KeyboardModifiers modifiers = QGuiApplication::keyboardModifiers (); //e->modifiers ();
+#endif
 
       if (m_shift_modifier || (modifiers & Qt::ShiftModifier))
         key |= Qt::SHIFT;
@@ -360,7 +364,11 @@ shortcuts_tree_widget::shortcuts_tree_widget (QWidget *parent)
 {
   QHash <QString, QTreeWidgetItem *> level_hash;
 
+#if defined (HAVE_QT4)
+  header ()->setResizeMode (QHeaderView::ResizeToContents);
+#else
   header ()->setSectionResizeMode (QHeaderView::ResizeToContents);
+#endif
 
   int dsc_col = tree_widget_shortcut_item::DESCRIPTION_COLUMN;
 

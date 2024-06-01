@@ -406,7 +406,12 @@ namespace Utils
 
     // We assume a standard mouse with 15 degree steps and Qt returns
     // 1/8 of a degree.
+#if defined (HAVE_QT4)
+    int ydelta = (event->orientation () == Qt::Vertical
+                    ? -(event->delta ()) : 0);
+#else
     int ydelta = -(event->angleDelta ().y ());
+#endif
 
     retval.setfield ("VerticalScrollCount", octave_value (ydelta / 120));
 

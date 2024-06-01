@@ -64,13 +64,17 @@ tab_bar::switch_right_tab ()
 void
 tab_bar::move_tab_left ()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   switch_tab (-1, true);
+#endif
 }
 
 void
 tab_bar::move_tab_right ()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   switch_tab (1, true);
+#endiof
 }
 
 void
@@ -89,9 +93,11 @@ tab_bar::switch_tab (int direction, bool movetab)
 
   if (movetab)
     {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
       moveTab (old_pos, new_pos);
       setCurrentIndex (old_pos);
       setCurrentIndex (new_pos);
+#endif
     }
   else
     setCurrentIndex (new_pos);

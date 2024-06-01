@@ -102,6 +102,7 @@ variable_dock_widget::variable_dock_widget (QWidget *p)
   connect (this, &variable_dock_widget::topLevelChanged,
            this, &variable_dock_widget::toplevel_change);
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
 #define DOCKED_FULLSCREEN_BUTTON_TOOLTIP "Fullscreen undock"
 #define UNDOCKED_FULLSCREEN_BUTTON_TOOLTIP "Fullscreen"
   // Add a fullscreen button
@@ -132,6 +133,7 @@ variable_dock_widget::variable_dock_widget (QWidget *p)
   if (first != nullptr)
     index = h_layout->indexOf (first);
   h_layout->insertWidget (index, fullscreen_button);
+#endif
 
   // Custom title bars cause loss of decorations, add a frame
   m_frame = new QFrame (this);
@@ -143,6 +145,7 @@ variable_dock_widget::variable_dock_widget (QWidget *p)
 void
 variable_dock_widget::change_floating (bool)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   if (isFloating ())
     {
       if (m_full_screen)
@@ -156,6 +159,7 @@ variable_dock_widget::change_floating (bool)
     }
   else
     m_fullscreen_action->setToolTip (tr (UNDOCKED_FULLSCREEN_BUTTON_TOOLTIP));
+#endif
 
   setFloating (! isFloating ());
 }
@@ -207,6 +211,7 @@ variable_dock_widget::toplevel_change (bool toplevel)
 void
 variable_dock_widget::change_fullscreen ()
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   gui_settings settings;
 
   if (! m_full_screen)
@@ -246,6 +251,7 @@ variable_dock_widget::change_fullscreen ()
     }
 #undef DOCKED_FULLSCREEN_BUTTON_TOOLTIP
 #undef UNDOCKED_FULLSCREEN_BUTTON_TOOLTIP
+#endif
 }
 
 void
@@ -550,7 +556,11 @@ variable_editor_view::variable_editor_view (QWidget *p)
   setHorizontalScrollMode (QAbstractItemView::ScrollPerPixel);
   setVerticalScrollMode (QAbstractItemView::ScrollPerPixel);
 
+#if defined (HAVE_QT4)
+  verticalHeader ()->setResizeMode (QHeaderView::Interactive);
+#else
   verticalHeader ()->setSectionResizeMode (QHeaderView::Interactive);
+#endif
 }
 
 void
@@ -558,7 +568,11 @@ variable_editor_view::setModel (QAbstractItemModel *model)
 {
   QTableView::setModel (model);
 
+#if defined (HAVE_QT4)
+  horizontalHeader ()->setResizeMode (QHeaderView::Interactive);
+#else
   horizontalHeader ()->setSectionResizeMode (QHeaderView::Interactive);
+#endif
 
   m_var_model = parent ()->findChild<variable_editor_model *> ();
 
@@ -1783,7 +1797,9 @@ variable_editor::construct_tool_bar ()
   // that restores active window and focus before acting.
   QList<HoverToolButton *> hbuttonlist
     = m_tool_bar->findChildren<HoverToolButton *> (""
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
                                                    , Qt::FindDirectChildrenOnly
+#endif
                                                   );
   for (int i = 0; i < hbuttonlist.size (); i++)
     {
@@ -1795,7 +1811,9 @@ variable_editor::construct_tool_bar ()
 
   QList<ReturnFocusToolButton *> rfbuttonlist
     = m_tool_bar->findChildren<ReturnFocusToolButton *> (""
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
                                                          , Qt::FindDirectChildrenOnly
+#endif
                                                         );
   for (int i = 0; i < rfbuttonlist.size (); i++)
     {

@@ -111,8 +111,13 @@ workspace_view::workspace_view (QWidget *p)
   m_view->setSortingEnabled (true);
 
   // Set header properties for sorting
+#if defined (HAVE_QT4)
+  m_view->horizontalHeader ()->setClickable (true);
+  m_view->horizontalHeader ()->setMovable (true);
+#else
   m_view->horizontalHeader ()->setSectionsClickable (true);
   m_view->horizontalHeader ()->setSectionsMovable (true);
+#endif
   m_view->horizontalHeader ()->setSortIndicator
     (settings.int_value (ws_sort_column),
      static_cast<Qt::SortOrder> (settings.uint_value (ws_sort_order)));

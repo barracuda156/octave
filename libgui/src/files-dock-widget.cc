@@ -409,8 +409,13 @@ files_dock_widget::files_dock_widget (QWidget *p)
      //        dropping support of Qt 5.4
 
   // Set header properties for sorting
+#if defined (HAVE_QT4)
+  m_file_tree_view->header ()->setClickable (true);
+  m_file_tree_view->header ()->setMovable (true);
+#else
   m_file_tree_view->header ()->setSectionsClickable (true);
   m_file_tree_view->header ()->setSectionsMovable (true);
+#endif
   m_file_tree_view->header ()->setSortIndicatorShown (true);
 
   QStringList mru_dirs =

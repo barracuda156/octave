@@ -375,8 +375,10 @@ Canvas::select_object (graphics_object obj, QMouseEvent *event,
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
           QPointF mouse_pos = event->position ();
-#else
+#elif QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
           QPointF mouse_pos = event->localPos ();
+#else
+          QPointF mouse_pos = event->posF ();
 #endif
           bool rect_contains_pos = r.contains (mouse_pos);
           if (rect_contains_pos)
@@ -434,8 +436,10 @@ Canvas::select_object (graphics_object obj, QMouseEvent *event,
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
               QPointF mouse_pos = event->position ();
-#else
+#elif QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
               QPointF mouse_pos = event->localPos ();
+#else
+              QPointF mouse_pos = event->posF ();
 #endif
               bool rect_contains_pos = r.contains (mouse_pos);
               if (rect_contains_pos)

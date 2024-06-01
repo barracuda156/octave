@@ -136,7 +136,11 @@ OCTAVE_BEGIN_NAMESPACE(octave)
 // Disable all Qt messages by default.
 
 static void
-message_handler (QtMsgType, const QMessageLogContext&, const QString&)
+#if defined (HAVE_QT4)
+    message_handler (QtMsgType, const char *)
+#else
+    message_handler (QtMsgType, const QMessageLogContext&, const QString&)
+#endif
 { }
 
 //! Reimplement QApplication::notify.  Octave's own exceptions are
@@ -200,11 +204,19 @@ base_qobject::base_qobject (qt_application& app_context, bool gui_app)
   // Installing our handler suppresses the messages.
 
   if (show_gui_msgs.empty ())
+#if defined (HAVE_QT4)
+    qInstallMsgHandler (message_handler);
+#else
     qInstallMessageHandler (message_handler);
+#endif
 
 #if ! defined (Q_OS_WIN32)
   // Set the codec for all strings (before wizard or any GUI object)
   QTextCodec::setCodecForLocale (QTextCodec::codecForName ("UTF-8"));
+#endif
+
+#if defined (HAVE_QT4)
+  QTextCodec::setCodecForCStrings (QTextCodec::codecForName ("UTF-8"));
 #endif
 
   // Register octave_value_list for connecting thread crossing signals.

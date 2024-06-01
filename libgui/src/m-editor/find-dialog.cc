@@ -396,7 +396,21 @@ find_dialog::init_search_text ()
       int lbeg, lend, cbeg, cend;
       m_edit_area->getSelection (&lbeg, &cbeg, &lend, &cend);
       if (lbeg == lend)
+#if defined (HAVE_QT4)
+          if (m_search_line_edit->isEditable ())
+            {
+              m_search_line_edit->setEditText (m_edit_area->selectedText ());
+            }
+          else
+            {
+              int i = m_search_line_edit->findText (m_edit_area->selectedText ());
+
+              if (i > -1)
+                m_search_line_edit->setCurrentIndex (i);
+            }
+#else
         m_search_line_edit->setCurrentText (m_edit_area->selectedText ());
+#endif
     }
 
   // set focus to "Find what" and select all text

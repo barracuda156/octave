@@ -89,6 +89,7 @@ protected:
 
   QFrame *m_frame;
 
+#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
   QAction *m_fullscreen_action;
 
   bool m_full_screen;
@@ -96,6 +97,7 @@ protected:
   bool m_prev_floating;
 
   QRect m_prev_geom;
+#endif
 
 // See Octave bug #53807 and https://bugreports.qt.io/browse/QTBUG-44813
 #define QTBUG_44813_FIX_VERSION 0x999999

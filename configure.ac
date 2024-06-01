@@ -1870,7 +1870,7 @@ if test -z ${QT_VERSIONS+x}; then
     dnl Qt6 requires support for C++17.
     QT_VERSIONS="5"
   else
-    QT_VERSIONS="6 5"
+    QT_VERSIONS="6 5 4"
   fi
 fi
 

@@ -539,7 +539,9 @@ octave_dock_widget::handle_settings ()
   QVariant dock_geom
     = settings.value (dw_dock_geometry.settings_key ().arg (objectName ()) + key_ext,
                       default_dock_size);
-#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#if #if (QT_VERSION < QT_VERSION_CHECK(5, 0, 0))
+  if (dock_geom.canConvert (QVariant::Rect))
+#elif QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
   if (dock_geom.canConvert (QMetaType (QMetaType::QRect)))
 #else
   if (dock_geom.canConvert (QMetaType::QRect))
