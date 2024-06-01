@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QHash>
+#include <QRegExp>
 #include <QKeyEvent>
 #include <QTextStream>
 #include <QThread>

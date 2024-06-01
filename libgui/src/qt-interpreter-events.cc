@@ -35,7 +35,6 @@
 #include <QIcon>
 #include <QMetaType>
 #include <QPushButton>
-#include <QRegularExpression>
 #include <QStringList>
 
 #include "dialog.h"
@@ -97,7 +96,7 @@ make_filter_list (const event_manager::filter_list& lst)
 
       // Strip out extensions from name and replace ';' with spaces in list.
 
-      name.replace (QRegularExpression {R"(\(.*\))"}, "");
+      name.replace (QRegExp (R"(\(.*\))"), "");
       ext.replace (";", " ");
 
       if (name.isEmpty ())

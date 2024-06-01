@@ -29,7 +29,6 @@
 
 #include <QMessageBox>
 #include <QProcess>
-#include <QRegularExpression>
 
 #include "external-editor-interface.h"
 #include "gui-settings.h"
@@ -56,7 +55,7 @@ external_editor_interface::call_custom_editor (const QString& file, int line)
   editor.replace ("%f", file);
   editor.replace ("%l", QString::number (line));
 
-  QStringList arguments = editor.split (QRegularExpression {"\\s+"});
+  QStringList arguments = editor.split (QRegExp("\\s+"));
   editor = arguments.takeFirst ();
 
   // start the process and check for success

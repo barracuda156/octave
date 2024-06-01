@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QFile>
+#include <QRegExp>
 #include <QStringList>
 
 #include "unix/TerminalView.h"

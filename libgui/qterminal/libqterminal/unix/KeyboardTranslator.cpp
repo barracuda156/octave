@@ -35,7 +35,6 @@
 #include <QBuffer>
 #include <QFile>
 #include <QFileInfo>
-#include <QRegularExpression>
 
 // FIXME: We should not have a special case for Mac here.  Instead, we
 // should be loading .keytab files at run time, and ideally, allowing
@@ -521,46 +520,44 @@ KeyboardTranslatorReader::tokenize (const QString& line)
     QString text = line.simplified();
 
     // comment line: # comment
-    static QRegularExpression comment {"\\#.*"};
+    static QRegExp comment("\\#.*");
     // title line: keyboard "title"
-    static QRegularExpression title {"keyboard\\s+\"(.*)\""};
+    static QRegExp title("keyboard\\s+\"(.*)\"");
     // key line: key KeySequence : "output"
     // key line: key KeySequence : command
-    static QRegularExpression key {"key\\s+([\\w\\+\\s\\-]+)\\s*:\\s*(\"(.*)\"|\\w+)"};
+    static QRegExp key("key\\s+([\\w\\+\\s\\-]+)\\s*:\\s*(\"(.*)\"|\\w+)");
 
     QList<Token> list;
 
-    if ( text.isEmpty() || comment.match (text).hasMatch () )
+    if ( text.isEmpty() || comment.exactMatch(text) )
     {
         return list;
     }
 
-    QRegularExpressionMatch match;
-    if ((match = title.match (text)).hasMatch ())
+    if ( title.exactMatch(text) )
     {
         Token titleToken = { Token::TitleKeyword , QString() };
-        Token textToken = { Token::TitleText , match.captured (1) };
+        Token textToken = { Token::TitleText , title.capturedTexts()[1] };
 
         list << titleToken << textToken;
     }
-    else if  ((match = key.match (text)).hasMatch ())
+    else if  ( key.exactMatch(text) )
     {
         Token keyToken = { Token::KeyKeyword , QString() };
-        Token sequenceToken = { Token::KeySequence,
-                                match.captured (1).remove (' ') };
+        Token sequenceToken = { Token::KeySequence , key.capturedTexts()[1].remove(' ') };
 
         list << keyToken << sequenceToken;
 
-        if ( match.captured (3).isEmpty () )
+        if ( key.capturedTexts()[3].isEmpty() )
         {
             // capturedTexts()[2] is a command
-            Token commandToken = { Token::Command , match.captured (2) };
+            Token commandToken = { Token::Command , key.capturedTexts()[2] };
             list << commandToken;
         }
         else
         {
             // capturedTexts()[3] is the output string
-            Token outputToken = { Token::OutputText , match.captured (3) };
+            Token outputToken = { Token::OutputText , key.capturedTexts()[3] };
             list << outputToken;
         }
     }

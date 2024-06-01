@@ -28,7 +28,7 @@
 #include <QHash>
 #include <QList>
 #include <QObject>
-#include <QRegularExpression>
+#include <QRegExp>
 #include <QStringList>
 
 // Local
@@ -230,9 +230,9 @@ public:
      * Regular expressions which match the empty string are treated as not matching
      * anything.
      */
-    void setRegExp(const QRegularExpression& text);
+    void setRegExp(const QRegExp& text);
     /** Returns the regular expression which the filter searches for in blocks of text */
-    QRegularExpression regExp() const;
+    QRegExp regExp() const;
 
     /**
      * Reimplemented to search the filter's text buffer for text matching regExp()
@@ -256,7 +256,7 @@ protected:
                                     int endLine,int endColumn, Type);
     Type _type;
 
-    QRegularExpression _searchText;
+    QRegExp _searchText;
 };
 
 class FilterObject;
@@ -316,14 +316,14 @@ protected:
 
 private:
 
-    static const QRegularExpression FullUrlRegExp;
-    static const QRegularExpression EmailAddressRegExp;
-    static const QRegularExpression ErrorLinkRegExp;
-    static const QRegularExpression ParseErrorLinkRegExp;
-    static const QRegularExpression CompleteErrorLinkRegExp;
+    static const QRegExp FullUrlRegExp;
+    static const QRegExp EmailAddressRegExp;
+    static const QRegExp ErrorLinkRegExp;
+    static const QRegExp ParseErrorLinkRegExp;
+    static const QRegExp CompleteErrorLinkRegExp;
 
     // combined OR of FullUrlRegExp and EmailAddressRegExp
-    static const QRegularExpression CompleteUrlRegExp;
+    static const QRegExp CompleteUrlRegExp;
 };
 
 class FilterObject : public QObject

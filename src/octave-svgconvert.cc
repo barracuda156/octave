@@ -44,7 +44,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QPrinter>
-#include <QRegularExpression>
+#include <QRegExp>
 
 // Include a set of path rendering functions extracted from Qt-5.12 source
 #include "octave-qsvghandler.h"
@@ -143,9 +143,12 @@ qstr2ptsvectord (QString str)
 QString
 get_field (QString str, QString field)
 {
-  QRegularExpression rx (field + "\\(([^\\)]*)\\)");
-  QRegularExpressionMatch match = rx.match (str);
-  QString retval = match.captured (1);
+  QString retval;
+  QRegExp rx (field + "\\(([^\\)]*)\\)");
+  int pos = 0;
+  pos = rx.indexIn (str, pos);
+  if (pos > -1)
+    retval = rx.cap (1);
 
   return retval;
 }

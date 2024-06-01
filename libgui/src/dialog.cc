@@ -39,7 +39,6 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QRegularExpression>
 #include <QVBoxLayout>
 
 #include "dialog.h"
@@ -69,7 +68,7 @@ QString
 QUIWidgetCreator::rm_amp (const QString& text)
 {
   QString text_wo_amp = text;
-  text_wo_amp.replace (QRegularExpression {"&(\\w)"}, "\\1");
+  text_wo_amp.replace (QRegExp ("&(\\w)"), "\\1");
   return text_wo_amp;
 }
 
